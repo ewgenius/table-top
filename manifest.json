@@ -1,0 +1,16 @@
+{
+  "name": "tabletop",
+  "short_name": "tabletop",
+  "description": "",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#fff",
+  "background_color": "#fff",
+  "icons": [
+    {
+      "src": "/assets/icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
