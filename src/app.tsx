@@ -3,8 +3,8 @@ import {render} from 'react-dom'
 import * as three from 'three'
 import './styles/main.scss'
 
-import ThreeView from './components/ThreeView/ThreeView.tsx'
+import App from './components/App/App.tsx'
 
 const container = document.querySelector('#root')
 
-render(<ThreeView />, container)
+render(<App />, container)

@@ -6,6 +6,7 @@
     "react-router": "registry:dt/react-router#2.0.0+20160828232736",
     "react-router/history": "registry:dt/react-router/history#2.0.0+20160830150755",
     "redux": "registry:dt/redux#3.5.2+20160703092728",
-    "three": "registry:dt/three#0.0.0+20160906062307"
+    "three": "registry:dt/three#0.0.0+20160906062307",
+    "three-orbitcontrols": "registry:dt/three-orbitcontrols#0.0.0+20160704010734"
   }
 }

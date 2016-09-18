@@ -1,20 +1,19 @@
 import * as React from 'react'
-import {Component} from 'react'
+import {Component, Props} from 'react'
 import './ThreeView.scss'
 
 import * as THREE from 'three'
 import {
-  Scene,
   WebGLRenderer,
   PerspectiveCamera,
-  Mesh,
-  CubeGeometry,
-  MeshNormalMaterial,
+  Clock
 } from 'three'
+import {TableScene} from '../../engine/TableScene.ts'
+import Controls from '../../engine/Controls.ts'
 
-interface ThreeViewProps {
+interface ThreeViewProps extends Props<ThreeView> {
   canvasId?: string
-} 
+}
 
 export default class ThreeView extends Component<ThreeViewProps, {}> {
   static defaultProps = {
@@ -22,30 +21,31 @@ export default class ThreeView extends Component<ThreeViewProps, {}> {
   }
 
   private canvas: HTMLCanvasElement
-  private container: Element
+  private container: HTMLElement
   private renderer: WebGLRenderer
-  private scene: Scene
+  private scene: TableScene
   private camera: PerspectiveCamera
+  private clock: Clock
+  private controls: Controls
 
   componentDidMount() {
     this.canvas = this.refs[this.props.canvasId] as HTMLCanvasElement
-    this.container = this.refs['wrapper'] as Element
+    this.container = this.refs['wrapper'] as HTMLElement
     this.initThree()
   }
 
   initThree() {
+    this.clock = new Clock()
+
     this.renderer = new WebGLRenderer({
       canvas: this.canvas
     })
-    this.scene = new Scene()
+    this.scene = new TableScene()
     this.camera = new PerspectiveCamera(65, this.canvas.clientWidth / this.canvas.clientHeight, 1, 10000)
+    this.controls = new Controls(this.camera, this.container)
 
     this.camera.position.y = 150
     this.camera.position.z = 350
-
-    const cube = new Mesh(new CubeGeometry(100, 100, 100), new MeshNormalMaterial())
-    cube.name = 'test'
-    this.scene.add(cube)
 
     window.addEventListener('resize', () => this.resizeScene())
 
@@ -60,8 +60,8 @@ export default class ThreeView extends Component<ThreeViewProps, {}> {
   }
 
   renderScene() {
-    let cube = this.scene.getObjectByName('test') as Mesh
-    cube.rotation.y += 0.1
+    this.controls.update()
+    this.scene.update(this.clock.getDelta())
     this.renderer.render(this.scene, this.camera)
 
     requestAnimationFrame(() => this.renderScene())
